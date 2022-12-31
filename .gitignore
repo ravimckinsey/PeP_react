@@ -1,0 +1,56 @@
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+.eslintcache
+.dccache
+
+
+# testing
+/coverage
+
+# production
+/build
+.DS_Store
+
+# misc
+.DS_Store
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# cypress
+cypress.env.json
+e2e/cypress/screenshots
+e2e/cypress/videos
+e2e/.docker-compose.env
+storybook-static/
+
+# VSCode
+.vscode/
+
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+
+# Optional npm cache directory
+.npm
+
+junit.xml
+
+# secrets file
+secrets.json
+
+# sonar scanner file
+.scannerwork
+
+#config env
+/public/config-env.js
