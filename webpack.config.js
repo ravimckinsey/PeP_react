@@ -1,4 +1,5 @@
 const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 /*We are basically telling webpack to take index.js from entry. Then check for all file extensions in resolve. 
 After that apply all the rules in module.rules and produce the output and place it in main.js in the public folder.*/
@@ -59,7 +60,16 @@ module.exports = {
      * This is what enables users to leave off the extension when importing
      */
     extensions: [".js", ".jsx", ".json"],
+    alias: {
+      "@": path.resolve(__dirname, "src/"),
+    },
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: "./public/index.html",
+    }),
+  ],
+
   module: {
     /** "rules"
      * This says - "Hey webpack compiler, when you come across a path that resolves to a '.js or .jsx'
@@ -67,16 +77,6 @@ module.exports = {
      * add it to the bundle. And in this process, kindly make sure to exclude node_modules folder from
      * being searched"
      */
-    // loaders: [
-    //   {
-    //     test: /\.(css|sass)$/i,
-    //     include: [
-    //       path.resolve(__dirname, "node_modules"),
-    //       path.resolve(__dirname, "path/to/imported/file/dir"),
-    //     ],
-    //     loaders: ["css", "sass"],
-    //   },
-    // ],
     rules: [
       {
         test: /\.js|\.jsx$/, //kind of file extension this rule should look for and apply in test
@@ -88,17 +88,9 @@ module.exports = {
           },
         },
       },
-
       {
-        test: /\.(css|sass)$/i,
-        include: path.resolve(__dirname, "src"),
-        use: [
-          "style-loader",
-          "css-loader",
-          "sass-loader",
-          "raw-loader",
-          "postcss-loader",
-        ],
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
       },
     ],
   },

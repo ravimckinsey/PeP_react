@@ -2,15 +2,16 @@ import { useGetSerchedUsers, useGetUsers } from "../../api";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { UsersList } from "../../components";
 import { debounce } from "../../utils";
+import "./user.css";
 
 function Users() {
   const { data: userData } = useGetUsers();
-  const ref = useRef(true);
   const [users, setUsers] = useState();
   const [keyword, setKeyWord] = useState(" ");
 
   const { refetch } = useGetSerchedUsers(keyword, {
-    enabled: !!keyword.replace(/\s+/g, ""),
+    // enabled: !!keyword.replace(/\s+/g, ""),
+    enabled: false,
     onSuccess: (data) => {
       setUsers(data);
     },
@@ -27,16 +28,18 @@ function Users() {
 
   const searchHandler = (e) => {
     let searchTest = e.target.value.replace(/\s+/g, "");
+    console.log("search test ", searchTest);
     setKeyWord(searchTest);
+    refetch();
   };
 
   const debounceChange = debounce(searchHandler, 1000);
 
   return (
-    <div>
+    <div className="form-class">
       <input
         onChange={debounceChange}
-        // value={keyword}
+        className="input-form"
         placeholder="Name search "
       />
       <UsersList names={names} />
