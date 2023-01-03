@@ -16,7 +16,7 @@ function Users() {
       setUsers(data);
     },
     onError: () => {
-      console.log("user");
+      console.error(data);
     },
   });
 
