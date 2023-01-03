@@ -1,5 +1,5 @@
 import { useGetSerchedUsers, useGetUsers } from "../../api";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { UsersList } from "../../components";
 import { debounce } from "../../utils";
 import "./user.css";
@@ -28,17 +28,18 @@ function Users() {
 
   const searchHandler = (e) => {
     let searchTest = e.target.value.replace(/\s+/g, "");
-    console.log("search test ", searchTest);
-    setKeyWord(searchTest);
-    refetch();
+    if (!!searchTest) {
+      setKeyWord(searchTest);
+      debounceChange();
+    }
   };
 
-  const debounceChange = debounce(searchHandler, 1000);
+  const debounceChange = debounce(refetch, 1000);
 
   return (
     <div className="form-class">
       <input
-        onChange={debounceChange}
+        onChange={searchHandler}
         className="input-form"
         placeholder="Name search "
       />
