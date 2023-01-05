@@ -1,5 +1,5 @@
 import { useGetSerchedUsers, useGetUsers } from "../../api";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { UsersList } from "../../components";
 import { debounce } from "../../utils";
 import "./user.css";
@@ -9,8 +9,7 @@ function Users() {
   const [users, setUsers] = useState();
   const [keyword, setKeyWord] = useState(" ");
 
-  const { refetch } = useGetSerchedUsers(keyword, {
-    // enabled: !!keyword.replace(/\s+/g, ""),
+  const { refetch, isLoading } = useGetSerchedUsers(keyword, {
     enabled: false,
     onSuccess: (data) => {
       setUsers(data);
@@ -19,6 +18,10 @@ function Users() {
       console.error(data);
     },
   });
+
+  // if (isLoading) {
+  //   return "loading...";
+  // }
 
   useEffect(() => {
     setUsers(userData);
@@ -34,7 +37,10 @@ function Users() {
     }
   };
 
-  const debounceChange = debounce(refetch, 1000);
+  const debounceChange = useCallback(
+    debounce(() => refetch(), 1000),
+    []
+  );
 
   return (
     <div className="form-class">
