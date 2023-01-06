@@ -1,1 +1,1 @@
-export { useGetUsers, useGetSerchedUsers } from "./users";
+export { useGetUsers } from "./users";

@@ -1,46 +1,21 @@
-import { useGetSerchedUsers, useGetUsers } from "../../api";
+import { useGetUsers } from "../../api";
 import React, { useCallback, useEffect, useState } from "react";
 import { UsersList } from "../../components";
 import { debounce } from "../../utils";
 import "./user.css";
 
 function Users() {
-  const { data: userData } = useGetUsers();
-  const [users, setUsers] = useState();
-  const [keyword, setKeyWord] = useState(" ");
-
-  const { refetch, isLoading } = useGetSerchedUsers(keyword, {
-    enabled: false,
-    onSuccess: (data) => {
-      setUsers(data);
-    },
-    onError: () => {
-      console.error(data);
-    },
-  });
-
-  // if (isLoading) {
-  //   return "loading...";
-  // }
-
-  useEffect(() => {
-    setUsers(userData);
-  }, [userData]);
-
-  const names = users?.map((item) => item.first_name);
-
+  const [keyword, setKeyword] = useState("");
+  const { data: userData } = useGetUsers(keyword);
+  const names = userData?.map((item) => item.first_name);
   const searchHandler = (e) => {
-    let searchTest = e.target.value.replace(/\s+/g, "");
-    if (!!searchTest) {
-      setKeyWord(searchTest);
-      debounceChange();
-    }
+    e.preventDefault;
+    debounceChange(e.target.value);
   };
-
-  const debounceChange = useCallback(
-    debounce(() => refetch(), 1000),
-    []
-  );
+  const debounceChange = useCallback((value) => request(value), []);
+  const request = debounce((value) => {
+    setKeyword(value);
+  }, 1000);
 
   return (
     <div className="form-class">
